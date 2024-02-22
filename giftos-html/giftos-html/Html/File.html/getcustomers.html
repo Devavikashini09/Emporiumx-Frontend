@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Details</title>
+</head>
+<body>
+  <h2>Customer Details</h2>
+  <table id="customerTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Gender</th>
+        <th>Date of Birth</th>
+      </tr>
+    </thead>
+    <tbody id="customerBody">
+    </tbody>
+  </table>
+
+  <script>
+    fetchCustomers();
+
+    function fetchCustomers() {
+      fetch('http://localhost:9090/customers')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(customers => {
+          let output = '';
+          customers.forEach(customer => {
+            output += `
+              <tr>
+                <td>${customer.name}</td>
+                <td>${customer.email}</td>
+                <td>${customer.phone}</td>
+                <td>${customer.address}</td>
+                <td>${customer.gender}</td>
+                <td>${customer.dob}</td>
+              </tr>
+            `;
+          });
+          document.getElementById('customerBody').innerHTML = output;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  </script>
+</body>
+</html>

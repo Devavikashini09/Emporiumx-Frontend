@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <br><h2 style="margin-left: 2%;">Add New Order</h2><br>
+    <form id="orderForm"  style="margin-left: 05%;>
+        <label for="customer_id">Customer ID:</label><br>
+        <input type="text" id="customer_id" name="customer_id" required><br><br>
+        
+        <label for="product_id">Product ID:</label><br>
+        <input type="text" id="product_id" name="product_id" required><br><br>
+        
+        <label for="quantity">Quantity:</label><br>
+        <input type="number" id="quantity" name="quantity" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (validateForm()) {
+                const customer_id = document.getElementById('customer_id').value;
+                const product_id = document.getElementById('product_id').value;
+                const quantity = parseInt(document.getElementById('quantity').value);
+
+                const apilink = 'http://localhost:9090/orders'; 
+                fetch(apilink, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ customer_id, product_id, quantity })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    
+                    document.getElementById('orderForm').reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+
+        function validateForm() {
+            // Add your form validation logic here
+            return true; // For simplicity, always return true for now
+        }
+    </script>
+</body>
+</html>

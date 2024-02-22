@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffca98;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="password"], input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="button"] {
+            background-color: #f1a533;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <input type="text" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required> 
+        <div id="error-message" class="error-message"></div>
+        <input type="button" value="Login" onclick="validateLoginForm()">
+    </form>
+</div>
+
+<script>
+    function validateLoginForm() {
+        var email = document.getElementById('loginEmail').value;
+        var password = document.getElementById('loginPassword').value;
+
+        // Hardcoded email and password for comparison
+        var hardcodedEmail = "admin@emporium.com";
+        var hardcodedPassword = "emporium";
+
+        if (email === "") {
+            document.getElementById('error-message').innerText = "Please enter your email";
+            return;
+        }
+
+        if (password === "") {
+            document.getElementById('error-message').innerText = "Please enter your password";
+            return;
+        }
+
+        // Compare entered email and password with hardcoded values
+        if (email !== hardcodedEmail || password !== hardcodedPassword) {
+            document.getElementById('error-message').innerText = "Incorrect email or password";
+            return;
+        }
+
+        // If everything is valid, redirect to another page
+        window.location.href = "products.html";
+    }
+</script>
+
+</body>
+</html>

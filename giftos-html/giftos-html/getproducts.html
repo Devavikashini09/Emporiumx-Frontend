@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" /> <link href="home.css" rel="stylesheet">
+</head>
+<body>
+    <style></style>
+    <h2>Add New Product</h2>
+   <div style="background-color: #ffffff; margin-left: 35%; margin-right: 35%; align-items: center; padding-top: 50px;border-radius: 10px;padding-bottom: 50px;">
+    <form id="productForm" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; align-items: center;">
+        <div style="margin-left: 30%; margin-right: 50%;">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" style="border-radius: 10px; border-width: 1px; border-style: ridge;" required><br>
+        
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" style="border-radius: 10px;border-width: 1px; padding-right: 43%; padding-top: 35%;"></textarea><br>
+        
+        <label for="price">Price:</label><br>
+        <input type="number" id="price" name="price" step="0.01" style="border-radius: 10px;border-width: 1px; " required><br>
+        
+        <label for="quantity">Quantity:</label><br>
+        <input type="number" id="quantity" name="quantity" style="border-radius: 10px;border-width: 1px; " required><br>
+        
+        <label for="image">Image URL:</label><br>
+        <input type="text" id="image" name="image" style="border-radius: 10px;border-width: 1px; " required><br><br>
+        
+        <button type="submit" style="size: 30%; color: #ffffff; background-color: #b68d51;border-width: 1px;border-radius: 6px;"><b>Submit</b></button></div>
+    </form>
+</div>
+    <hr>
+
+  
+    <div id="productDetails"></div>
+<script>
+function submitForm() {
+  const textarea = document.getElementById("description");
+  const text = textarea.value.replace(/\n/g, "\r\n");
+  textarea.value=text;
+}
+</script>
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            if (validateForm()) {
+                const name = document.getElementById('name').value;
+                const description = document.getElementById('description').value;
+                const price = parseFloat(document.getElementById('price').value);
+                const quantity = parseInt(document.getElementById('quantity').value);
+                const image = document.getElementById('image').value;
+
+                const apilink = 'http://localhost:9090/products'; // Change this URL to match your backend endpoint
+                fetch(apilink, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, description, price, quantity, image })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    // Reset the form after successful submission
+                    document.getElementById('productForm').reset();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+
+        function validateForm() {
+            // Add your form validation logic here
+            return true; // For simplicity, always return true for now
+        }
+
+        // Fetch and display product details
+        fetchProducts();
+
+        function fetchProducts() {
+            const apilink = 'http://localhost:9090/products'; // Change this URL to match your backend endpoint
+//             fetch(apilink)
+//                 .then(response => {
+//                     if (!response.ok) {
+//                         throw new Error('Network response was not ok');
+//                     }
+//                     return response.json();
+//                 })
+//                 .then(products => {
+//   let output = '';
+
+//   // Iterate through products in groups of 4
+//   for (let i = 0; i < products.length; i += 4) {
+//     output += '<div class="product-row">'; // Create a row container
+
+//     // Iterate through the current group of 4 products
+//     for (let j = 0; j < 4 && i + j < products.length; j++) {
+//       const product = products[i + j];
+
+//       output += `
+//         <div class="product-item" >
+//             <img src="${product.image}" alt="Product Image" style="width: 100px; height: auto;">
+       
+//           <h3>${product.name}</h3>
+//           <p>Description: ${product.description}</p>
+//           <p>Price: ${product.price}</p>
+//           <p>Quantity: ${product.quantity}</p>
+//          </div>
+//       `;
+//     }
+
+//     output += '</div>'; // Close the row container
+//   }
+
+//   document.getElementById('productDetails').innerHTML = output;
+// })
+// .catch(error => {
+//   console.error('Error:', error);
+// });
+         }
+    </script>
+</body>
+</html>
